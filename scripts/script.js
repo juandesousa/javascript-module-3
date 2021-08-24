@@ -34,9 +34,12 @@ const episodeContent = (resJson) => {
     .then(json => {
       const personajesEpisodios = document.querySelector(".personajesEpisodios")
       const card = document.createElement('div')
-      card.className = 'col-3'
+      card.className = 'col-3';
+      card.style.cursor = 'pointer';
+      card.style.padding = 'none'
       personajesEpisodios.appendChild(card)
-      card.innerHTML = `<div class="card m-3" style="width: 14rem;"><img src="${json.image}" class="card-img-top" alt="..."><div class="card-body"><h5 class="card-title">${json.name}</h5><h5 class="card-title">${json.species} | ${json.status}</h5></div></div>`;
+      card.innerHTML = `<div class="card m-2"><img src="${json.image}" class="card-img-top" alt="..."><div class="card-body"><h5 class="card-title">${json.name}</h5><h5 class="card-title">${json.species} | ${json.status}</h5></div></div>`;
+      card.onclick = () => console.log('hola')
     }) 
     });
 }
