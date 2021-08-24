@@ -32,7 +32,6 @@ const episodeContent = (resJson) => {
     fetch(character)
     .then(response => response.json())
     .then(json => {
-      console.log(json)
       const personajesEpisodios = document.querySelector(".personajesEpisodios")
       const card = document.createElement('div')
       card.className = 'col-3'
