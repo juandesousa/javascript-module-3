@@ -131,11 +131,7 @@ const ul = document.createElement('ul');
 ul.className = 'nav nav-pills flex-column mb-3';
 list.appendChild(ul);
 
-
-const episodeList = (resJson) => {
-    let {results} = resJson
-    let paginar = results.slice(0,10);
-    
+const paginarEpisodio= (paginar)=>{
     paginar.forEach((result) => {
         const li = document.createElement('li');
         li.className = 'nav-item m-2 col-10';
@@ -143,6 +139,18 @@ const episodeList = (resJson) => {
         li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
         li.onclick = () => fetchEpisodes(result.id);
     })
+}
+const episodeList = (resJson) => {
+    let {results} = resJson
+    let paginar = results.slice(0,10);
+    paginarEpisodio(paginar)
+    // paginar.forEach((result) => {
+    //     const li = document.createElement('li');
+    //     li.className = 'nav-item m-2 col-10';
+    //     ul.appendChild(li);
+    //     li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
+    //     li.onclick = () => fetchEpisodes(result.id);
+    // })
 
     const button = document.createElement('div');
     button.className = 'd-flex p-2 loadmore'
@@ -150,13 +158,14 @@ const episodeList = (resJson) => {
     button.onclick = () => {
         if(paginar.length==10){
             paginar = results.slice(10,20);
-            paginar.forEach((result) => {
-                const li = document.createElement('li');
-                li.className = 'nav-item m-2 col-10';
-                ul.appendChild(li);
-                li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
-                li.onclick = () => fetchEpisodes(result.id);
-            })
+            paginarEpisodio(paginar)
+            // paginar.forEach((result) => {
+            //     const li = document.createElement('li');
+            //     li.className = 'nav-item m-2 col-10';
+            //     ul.appendChild(li);
+            //     li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
+            //     li.onclick = () => fetchEpisodes(result.id);
+            // })
         paginar.length = results.length
         }else{
             button.className='d-none'
