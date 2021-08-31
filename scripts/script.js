@@ -18,8 +18,7 @@ const renderLocation = (location) => {
     clearContent();
     fetch(location)
         .then(request => request.json())
-        .then(response => { //name type | dimension residents
-            console.log(response)
+        .then(response => { 
             const contentEpisode = document.querySelector('.contentEpisode');
             const h1 = document.createElement('h1');
             const h5 = document.createElement('h5');
@@ -48,7 +47,6 @@ const renderLocation = (location) => {
 
 const renderCharacter = (character) => {
     clearContent();
-    console.log(character)
     const contentEpisode = document.querySelector('.contentEpisode');
     const divUp = document.createElement('div');
     const divDown = document.createElement('div');
@@ -84,6 +82,7 @@ const renderCharacter = (character) => {
                 card.className = 'col-3';
                 personajesEpisodios.appendChild(card)
                 card.innerHTML = `<div class="card m-2" style="cursor: pointer; border:none"><div class="card-body"><h5 class="card-title"><b>Episode ${response.id}</b></h5><h5 class="card-title">${response.episode}</h5></div></div>`;
+                card.onclick = () => fetchEpisodes(response.id)
             })
     })
 }
@@ -127,46 +126,35 @@ const fetchEpisodes = async (episode) => {
     }
 }
 
+const list = document.querySelector('#list');
+const ul = document.createElement('ul');
+ul.className = 'nav nav-pills flex-column mb-3';
+list.appendChild(ul);
 
 const episodeList = (resJson) => {
-    
+
     const results = resJson.results;
-    const list = document.querySelector('#list');
-    const ul = document.createElement('ul');
-    ul.className = 'nav nav-pills flex-column mb-3';
-    list.appendChild(ul);
-    results.forEach((result) =>{
+    
+    results.forEach((result) => {
         const li = document.createElement('li');
         li.className = 'nav-item m-2 col-10';
         ul.appendChild(li);
         li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
         li.onclick = () => fetchEpisodes(result.id);
     })
-    
+
     const button = document.createElement('div');
     button.className = 'd-flex p-2 loadmore'
     button.innerHTML = `<button type="button" class="btn btn-outline-primary">Load More</button>`;
-    button.onclick = () => {fetchAllEpisodes(resJson.info.next); button.className = 'd-none'};
+    button.onclick = () => { fetchAllEpisodes(resJson.info.next); button.className = 'd-none' };
     list.appendChild(button);
-    
-    
-    // for (let i = 0; i < count; i++) {
-    //     const li = document.createElement('li');
-    //     li.className = 'nav-item m-2 col-10';
-    //     ul.appendChild(li);
-    //     li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${i + 1}</a>`;
-    //     li.onclick = () => fetchEpisodes(i + 1);
-    // }
 }
 
 const fetchAllEpisodes = async (url = "https://rickandmortyapi.com/api/episode") => {
-    
+
     try {
-        console.log(url);
-        // const url = "https://rickandmortyapi.com/api/episode";
         const request = await fetch(url);
         const response = await request.json();
-        console.log(response)
         episodeList(response)
     } catch (error) {
         console.log(error);
