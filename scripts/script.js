@@ -135,7 +135,7 @@ list.appendChild(ul);
 const episodeList = (resJson) => {
     let {results} = resJson
     let paginar = results.slice(0,10);
-    console.log(resJson)
+    
     paginar.forEach((result) => {
         const li = document.createElement('li');
         li.className = 'nav-item m-2 col-10';
