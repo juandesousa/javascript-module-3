@@ -131,28 +131,29 @@ const ul = document.createElement('ul');
 ul.className = 'nav nav-pills flex-column mb-3';
 list.appendChild(ul);
 
-const paginarEpisodio= (paginar)=>{
+const renderEpisode = (paginar)=>{
     paginar.forEach((result) => {
         const li = document.createElement('li');
         li.className = 'nav-item m-2 col-10';
         ul.appendChild(li);
-        li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
+        li.innerHTML = `<button  class="btn btn-primary" aria-current="page">Episode ${result.id}</button>`;
         li.onclick = () => fetchEpisodes(result.id);
     })
 }
+
 const episodeList = (resJson) => {
     let {results} = resJson
-    let paginar = results.slice(0,10);
-    paginarEpisodio(paginar);
-
+    
+    renderEpisode (results.slice(0,10));
+    
     const button = document.createElement('div');
     button.className = 'd-flex p-2 loadmore'
     button.innerHTML = `<button type="button" class="btn btn-outline-primary">Load More</button>`;
     button.onclick = () => {
-        if(paginar.length==10){
-            paginar = results.slice(10,20);
-            paginarEpisodio(paginar);
-            paginar.length = results.length;
+        const sizeList = parseInt(ul.childElementCount.toString().split(''));
+
+        if(sizeList%2 !== 0){
+            renderEpisode (results.slice(10,20));
         }else{
             button.className='d-none'
             fetchAllEpisodes(resJson.info.next)
@@ -169,8 +170,7 @@ const fetchAllEpisodes = async (url = "https://rickandmortyapi.com/api/episode")
         const response = await request.json();
         episodeList(response)
     } catch (error) {
-        console.log(error);
-        alert('No hay mas episodios!!!')
+        throw Error(error)
     }
 
 }
