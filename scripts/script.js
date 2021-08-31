@@ -143,14 +143,7 @@ const paginarEpisodio= (paginar)=>{
 const episodeList = (resJson) => {
     let {results} = resJson
     let paginar = results.slice(0,10);
-    paginarEpisodio(paginar)
-    // paginar.forEach((result) => {
-    //     const li = document.createElement('li');
-    //     li.className = 'nav-item m-2 col-10';
-    //     ul.appendChild(li);
-    //     li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
-    //     li.onclick = () => fetchEpisodes(result.id);
-    // })
+    paginarEpisodio(paginar);
 
     const button = document.createElement('div');
     button.className = 'd-flex p-2 loadmore'
@@ -158,20 +151,12 @@ const episodeList = (resJson) => {
     button.onclick = () => {
         if(paginar.length==10){
             paginar = results.slice(10,20);
-            paginarEpisodio(paginar)
-            // paginar.forEach((result) => {
-            //     const li = document.createElement('li');
-            //     li.className = 'nav-item m-2 col-10';
-            //     ul.appendChild(li);
-            //     li.innerHTML = `<a href="#" class="nav-link active" aria-current="page">Episode ${result.id}</a>`;
-            //     li.onclick = () => fetchEpisodes(result.id);
-            // })
-        paginar.length = results.length
+            paginarEpisodio(paginar);
+            paginar.length = results.length;
         }else{
             button.className='d-none'
             fetchAllEpisodes(resJson.info.next)
         }
-        
     };
    
     list.appendChild(button);
